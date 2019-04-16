@@ -5,6 +5,7 @@ import Loader from 'react-loader-spinner';
 import { CharacterList } from "../components";
 // import actions
 import { getCharacter } from '../actions';
+import { charsReducer } from '../reducers/starWarsReducer'
 
 class CharacterListView extends React.Component {
   constructor() {
@@ -36,8 +37,8 @@ class CharacterListView extends React.Component {
 // the characters and the fetching boolean
 
 const mapStateToProps = state => ({
-  characters: state.characters,
-  isLoading: state.isLoading
+  characters: state.charsReducer.characters,
+  isLoading: state.charsReducer.isLoading
 });
 
 export default connect(
