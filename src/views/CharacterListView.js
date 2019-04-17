@@ -1,25 +1,33 @@
 import React from "react";
 import { connect } from "react-redux";
+import Loader from 'react-loader-spinner';
 
 import { CharacterList } from "../components";
 // import actions
+import { getCharacter } from '../actions';
+import { charsReducer } from '../reducers/starWarsReducer'
 
 class CharacterListView extends React.Component {
   constructor() {
     super();
   }
-
+  
   componentDidMount() {
     // call our action
+      this.props.getCharacter();
   }
-
+  
   render() {
-    if (this.props.fetching) {
+      console.log(this.props)
       // return something here to indicate that you are fetching data
-    }
     return (
       <div className="CharactersList_wrapper">
-        <CharacterList characters={this.props.characters} />
+      {this.props.isLoading && (
+        <Loader type='Ball-Triangle' color='#00BFFF' height='90' width='60' />
+      )}
+        {this.props.characters && (
+           <CharacterList characters={this.props.characters} />
+        )}
       </div>
     );
   }
@@ -27,9 +35,13 @@ class CharacterListView extends React.Component {
 
 // our mapStateToProps needs to have two properties inherited from state
 // the characters and the fetching boolean
+
+const mapStateToProps = state => ({
+  characters: state.charsReducer.characters,
+  isLoading: state.charsReducer.isLoading
+});
+
 export default connect(
-  null /* mapStateToProps replaces null here */,
-  {
-    /* action creators go here */
-  }
+  mapStateToProps, /* mapStateToProps replaces null here */
+  { getCharacter }
 )(CharacterListView);
